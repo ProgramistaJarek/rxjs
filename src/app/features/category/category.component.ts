@@ -1,19 +1,36 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { DIALOG_DATA } from '@angular/cdk/dialog';
+import { Observable } from 'rxjs';
 
-import { Category } from 'src/app/utilities/Category';
+import { Product } from 'src/app/utilities/Product';
+import { StoreService } from 'src/app/services/store.service';
 
 @Component({
   selector: 'app-category',
-  template: ` <p>category works!</p> `,
+  template: `
+    <div *ngIf="observable$ | async as product">
+      <div *ngFor="let item of product">
+        <p>title: {{ item.title }}</p>
+      </div>
+    </div>
+  `,
   styleUrls: ['./category.component.scss'],
 })
 export class CategoryComponent implements OnInit {
-  category!: Category;
+  observable$!: Observable<Product[]>;
 
-  constructor(@Inject(DIALOG_DATA) public data: { item: any }) {}
+  constructor(
+    @Inject(DIALOG_DATA) public data: { categoryName: string },
+    private service: StoreService
+  ) {}
 
   ngOnInit(): void {
-    this.data.item.subscribe();
+    this.service
+      .getOneCategory(this.data.categoryName)
+      .subscribe((respone: any) => (this.observable$ = respone));
+  }
+
+  test() {
+    console.log(this.observable$);
   }
 }

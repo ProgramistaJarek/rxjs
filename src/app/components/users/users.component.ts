@@ -1,14 +1,19 @@
 import { Component, OnInit } from '@angular/core';
 import { UsersService } from 'src/app/services/users.service';
 
-import { User } from 'src/app/User';
+import { User } from 'src/app/utilities/User';
 
 @Component({
   selector: 'app-users',
-  template: `<button (click)="login()">login</button>
+  template: `<button mat-stroked-button color="primary" (click)="login()">
+      login
+    </button>
     <h1>Users:</h1>
     <ul *ngFor="let user of users">
-      <li>{{ user.name.firstname }}</li>
+      <li>
+        {{ user.name.firstname | titlecase }}
+        {{ user.name.lastname | titlecase }}
+      </li>
     </ul>`,
   styleUrls: ['./users.component.scss'],
 })
