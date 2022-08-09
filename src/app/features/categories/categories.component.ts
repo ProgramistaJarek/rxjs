@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { catchError, Observable } from 'rxjs';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { StoreService } from 'src/app/services/store.service';
-import { CategoryComponent } from 'src/app/features/category/category.component';
-import { catchError, map, Observable } from 'rxjs';
+import { CategoryComponent } from 'src/app/components/category/category.component';
 
 @Component({
   selector: 'app-categories',
@@ -27,16 +28,31 @@ import { catchError, map, Observable } from 'rxjs';
 export class CategoriesComponent {
   categories$!: Observable<string[]>;
 
-  constructor(private service: StoreService, private dialog: MatDialog) {}
+  constructor(
+    private service: StoreService,
+    private dialog: MatDialog,
+    private snackBar: MatSnackBar
+  ) {}
 
   showCategories() {
-    this.categories$ = this.service.getAllCategories();
+    this.categories$ = this.service.getAllCategories().pipe(
+      catchError((err) => {
+        this.snackBar.open('nie działa', 'dziala');
+        throw 'tu byl error' + err;
+      })
+    );
+    //this.categories$ = this.service.getAllCategories();
   }
 
   openCategory(category: string) {
     this.dialog.open(CategoryComponent, {
       data: {
-        products: this.service.getOneCategory(category),
+        products: this.service.getOneCategory(category).pipe(
+          catchError((err) => {
+            this.snackBar.open('nie działa', 'dziala');
+            throw 'tu byl error' + err;
+          })
+        ),
       },
     });
   }

@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { UsersService } from 'src/app/services/users.service';
+import { catchError, Observable } from 'rxjs';
 
+import { UsersService } from 'src/app/services/users.service';
 import { User } from 'src/app/utilities/User';
-import { Token } from 'src/app/services/users.service';
-import { Observable } from 'rxjs';
+import { Token } from 'src/app/utilities/Token';
 
 @Component({
   selector: 'app-users',
@@ -33,6 +33,11 @@ export class UsersComponent implements OnInit {
   login() {
     this.userService
       .loginUser()
+      .pipe(
+        catchError((err) => {
+          throw 'tu byl error' + err;
+        })
+      )
       .subscribe((resopne: Token) => this.userService.setToken(resopne));
   }
 }

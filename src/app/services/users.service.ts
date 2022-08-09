@@ -3,10 +3,7 @@ import { HttpClient } from '@angular/common/http';
 
 import { User } from '../utilities/User';
 import { Observable } from 'rxjs';
-
-export interface Token {
-  token: string;
-}
+import { Token } from '../utilities/Token';
 
 @Injectable({
   providedIn: 'root',
@@ -28,11 +25,11 @@ export class UsersService {
     });
   }
 
-  setToken(tokenValue: Token) {
+  setToken(tokenValue: Token): void {
     this.token = tokenValue;
   }
 
-  getAuthToken() {
+  getAuthToken(): string {
     return this.token?.token;
   }
 }
