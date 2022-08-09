@@ -1,16 +1,19 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { tap } from 'rxjs';
 
 import { User } from '../utilities/User';
 import { Observable } from 'rxjs';
+
+export interface Token {
+  token: string;
+}
 
 @Injectable({
   providedIn: 'root',
 })
 export class UsersService {
   url = 'https://fakestoreapi.com/users';
-  token!: any;
+  token!: Token;
 
   constructor(private http: HttpClient) {}
 
@@ -19,15 +22,17 @@ export class UsersService {
   }
 
   loginUser() {
-    return this.http
-      .post('https://fakestoreapi.com/auth/login', {
-        username: 'mor_2314',
-        password: '83r5^_',
-      })
-      .pipe(
-        tap((e) => {
-          console.log(e);
-        })
-      );
+    return this.http.post<Token>('https://fakestoreapi.com/auth/login', {
+      username: 'mor_2314',
+      password: '83r5^_',
+    });
+  }
+
+  setToken(tokenValue: Token) {
+    this.token = tokenValue;
+  }
+
+  getAuthToken() {
+    return this.token?.token;
   }
 }

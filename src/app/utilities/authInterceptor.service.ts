@@ -16,11 +16,14 @@ export class MyInterceptor implements HttpInterceptor {
     request: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
-    const token = String(this.userService.loginUser());
-    const authReq = request.clone({
-      setHeaders: { Auth: token },
-    });
+    const token = this.userService.getAuthToken();
+    if (token) {
+      const authReq = request.clone({
+        setHeaders: { AuthorizationToken: token },
+      });
+      return next.handle(authReq);
+    }
 
-    return next.handle(authReq);
+    return next.handle(request);
   }
 }

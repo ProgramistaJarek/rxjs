@@ -1,8 +1,11 @@
-import { Component, OnInit } from '@angular/core';
-import { Dialog } from '@angular/cdk/dialog';
+import { Component } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 
 import { StoreService } from 'src/app/services/store.service';
+import { UsersService } from 'src/app/services/users.service';
 import { CategoryComponent } from 'src/app/features/category/category.component';
+import { Token } from 'src/app/services/users.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-categories',
@@ -10,19 +13,27 @@ import { CategoryComponent } from 'src/app/features/category/category.component'
     <button mat-stroked-button color="primary" (click)="showCategories()">
       Show categories
     </button>
-    <ul *ngIf="categories">
-      <li *ngFor="let category of categories" (click)="openCategory(category)">
+
+    <mat-list *ngIf="categories">
+      <mat-list-item
+        *ngFor="let category of categories"
+        (click)="openCategory(category)"
+        class="mat-list-item"
+      >
         {{ category }}
-      </li>
-    </ul>
+      </mat-list-item>
+    </mat-list>
   `,
   styleUrls: ['./categories.component.scss'],
 })
-export class CategoriesComponent implements OnInit {
+export class CategoriesComponent {
   categories!: string[];
-  constructor(private service: StoreService, private dialog: Dialog) {}
 
-  ngOnInit(): void {}
+  constructor(
+    private service: StoreService,
+    private dialog: MatDialog,
+    private userService: UsersService
+  ) {}
 
   showCategories() {
     this.service.getAllCategories().subscribe((result: string[]) => {
@@ -31,8 +42,8 @@ export class CategoriesComponent implements OnInit {
   }
 
   openCategory(category: string) {
-    const dialogRef = this.dialog.open(CategoryComponent, {
-      data: { categoryName: category },
+    this.dialog.open(CategoryComponent, {
+      data: { products: this.service.getOneCategory(category) },
     });
   }
 }

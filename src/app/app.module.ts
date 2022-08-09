@@ -9,8 +9,10 @@ import { CategoriesComponent } from './components/categories/categories.componen
 import { CategoryComponent } from './features/category/category.component';
 import { MyInterceptor } from './utilities/authInterceptor.service';
 
-import { DialogModule } from '@angular/cdk/dialog';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatListModule } from '@angular/material/list';
 import { MatButtonModule } from '@angular/material/button';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @NgModule({
   declarations: [
@@ -23,8 +25,10 @@ import { MatButtonModule } from '@angular/material/button';
     BrowserModule,
     HttpClientModule,
     BrowserAnimationsModule,
-    DialogModule,
     MatButtonModule,
+    MatProgressSpinnerModule,
+    MatDialogModule,
+    MatListModule,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: MyInterceptor, multi: true },

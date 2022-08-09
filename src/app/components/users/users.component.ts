@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
 import { UsersService } from 'src/app/services/users.service';
 
 import { User } from 'src/app/utilities/User';
+import { Token } from 'src/app/services/users.service';
 
 @Component({
   selector: 'app-users',
@@ -29,6 +31,8 @@ export class UsersComponent implements OnInit {
   }
 
   login() {
-    this.userService.loginUser().subscribe();
+    this.userService
+      .loginUser()
+      .subscribe((resopne: Token) => this.userService.setToken(resopne));
   }
 }
