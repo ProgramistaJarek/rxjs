@@ -41,7 +41,6 @@ export class CategoriesComponent {
         throw 'tu byl error' + err;
       })
     );
-    //this.categories$ = this.service.getAllCategories();
   }
 
   openCategory(category: string) {
