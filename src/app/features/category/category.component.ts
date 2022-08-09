@@ -13,9 +13,12 @@ import { Product } from 'src/app/utilities/Product';
     >
       <h1>Products</h1>
       <mat-dialog-content>
-        <div *ngFor="let item of products">
+        <div *ngFor="let item of products" style="margin-bottom: 1.5rem">
           <h3 mat-dialog-title>{{ item.title }}</h3>
-          <p mat-dialog-content>{{ item.description }}</p>
+          <div class="card">
+            <img mat-card-image [src]="item.image" width="64px" />
+            <p mat-dialog-content>{{ item.description }}</p>
+          </div>
         </div>
         <div mat-dialog-actions>
           <button mat-button mat-dialog-close>Close</button>

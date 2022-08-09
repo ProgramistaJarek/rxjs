@@ -16,7 +16,7 @@ export class StoreService {
     return this.http.get<string[]>(`${this.url}/categories`);
   }
 
-  getOneCategory(category: string) {
+  getOneCategory(category: string): Observable<Product> {
     return this.http.get<Product>(`${this.url}/category/${category}`);
   }
 }

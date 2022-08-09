@@ -21,7 +21,7 @@ export class UsersService {
     return this.http.get<User[]>(this.url);
   }
 
-  loginUser() {
+  loginUser(): Observable<Token> {
     return this.http.post<Token>('https://fakestoreapi.com/auth/login', {
       username: 'mor_2314',
       password: '83r5^_',

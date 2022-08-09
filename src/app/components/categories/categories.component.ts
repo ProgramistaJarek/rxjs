@@ -2,10 +2,8 @@ import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 
 import { StoreService } from 'src/app/services/store.service';
-import { UsersService } from 'src/app/services/users.service';
 import { CategoryComponent } from 'src/app/features/category/category.component';
-import { Token } from 'src/app/services/users.service';
-import { Observable } from 'rxjs';
+import { catchError, map, Observable } from 'rxjs';
 
 @Component({
   selector: 'app-categories',
@@ -14,7 +12,7 @@ import { Observable } from 'rxjs';
       Show categories
     </button>
 
-    <mat-list *ngIf="categories">
+    <mat-list *ngIf="categories$ | async as categories">
       <mat-list-item
         *ngFor="let category of categories"
         (click)="openCategory(category)"
@@ -27,23 +25,19 @@ import { Observable } from 'rxjs';
   styleUrls: ['./categories.component.scss'],
 })
 export class CategoriesComponent {
-  categories!: string[];
+  categories$!: Observable<string[]>;
 
-  constructor(
-    private service: StoreService,
-    private dialog: MatDialog,
-    private userService: UsersService
-  ) {}
+  constructor(private service: StoreService, private dialog: MatDialog) {}
 
   showCategories() {
-    this.service.getAllCategories().subscribe((result: string[]) => {
-      this.categories = result;
-    });
+    this.categories$ = this.service.getAllCategories();
   }
 
   openCategory(category: string) {
     this.dialog.open(CategoryComponent, {
-      data: { products: this.service.getOneCategory(category) },
+      data: {
+        products: this.service.getOneCategory(category),
+      },
     });
   }
 }
