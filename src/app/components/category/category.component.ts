@@ -8,7 +8,7 @@ import { Product } from 'src/app/utilities/Product';
   selector: 'app-category',
   template: `
     <div
-      *ngIf="data.products | async as products; else other_content"
+      *ngIf="data.products$ | async as products; else other_content"
       class="product"
     >
       <h1>Products</h1>
@@ -32,6 +32,6 @@ import { Product } from 'src/app/utilities/Product';
 })
 export class CategoryComponent {
   constructor(
-    @Inject(DIALOG_DATA) public data: { products: Observable<Product[]> }
+    @Inject(DIALOG_DATA) public data: { products$: Observable<Product[]> }
   ) {}
 }

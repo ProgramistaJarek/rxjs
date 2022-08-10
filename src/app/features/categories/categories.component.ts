@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { catchError, Observable } from 'rxjs';
+import { catchError, EMPTY, Observable, retry, switchMap } from 'rxjs';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { StoreService } from 'src/app/services/store.service';
@@ -27,6 +27,7 @@ import { CategoryComponent } from 'src/app/components/category/category.componen
 })
 export class CategoriesComponent {
   categories$!: Observable<string[]>;
+  kategorie!: any;
 
   constructor(
     private service: StoreService,
@@ -36,9 +37,8 @@ export class CategoriesComponent {
 
   showCategories() {
     this.categories$ = this.service.getAllCategories().pipe(
-      catchError((err) => {
-        this.snackBar.open('nie działa', 'dziala');
-        throw 'tu byl error' + err;
+      catchError((err, caught) => {
+        return this.errorHandling(caught);
       })
     );
   }
@@ -46,13 +46,25 @@ export class CategoriesComponent {
   openCategory(category: string) {
     this.dialog.open(CategoryComponent, {
       data: {
-        products: this.service.getOneCategory(category).pipe(
-          catchError((err) => {
-            this.snackBar.open('nie działa', 'dziala');
-            throw 'tu byl error' + err;
+        products$: this.service.getOneCategory(category).pipe(
+          catchError((err, caught) => {
+            return this.errorHandling(caught);
           })
         ),
       },
     });
+  }
+
+  errorHandling(caught: Observable<any>) {
+    const snackRef = this.snackBar.open('Napraw se internet', 'dziala?');
+
+    return snackRef.afterDismissed().pipe(
+      switchMap((info) => {
+        if (info.dismissedByAction === true) {
+          return caught.pipe(retry());
+        }
+        return EMPTY;
+      })
+    );
   }
 }
