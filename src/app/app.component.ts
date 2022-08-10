@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable, catchError } from 'rxjs';
+import { Observable } from 'rxjs';
 
 import { UsersService } from './services/users.service';
 import { User } from './utilities/User';
@@ -13,6 +13,7 @@ import { Token } from './utilities/Token';
 export class AppComponent implements OnInit {
   title = 'rxjs';
   users$!: Observable<User[]>;
+  isLoggedIn$: Observable<boolean> = this.auth.isLoggedIn();
 
   constructor(private auth: UsersService) {}
 
@@ -23,11 +24,10 @@ export class AppComponent implements OnInit {
   login() {
     this.auth
       .loginUser()
-      .pipe(
-        catchError((err) => {
-          throw 'tu byl error' + err;
-        })
-      )
-      .subscribe((resopne: Token) => this.auth.setToken(resopne));
+      .subscribe((resopne: Token) => this.auth.logInWithToken(resopne));
+  }
+
+  logout() {
+    this.auth.logOut();
   }
 }

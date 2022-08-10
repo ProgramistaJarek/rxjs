@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Observable, Subject } from 'rxjs';
 
 import { User } from '../utilities/User';
-import { Observable } from 'rxjs';
 import { Token } from '../utilities/Token';
 
 @Injectable({
@@ -10,7 +10,9 @@ import { Token } from '../utilities/Token';
 })
 export class UsersService {
   url = 'https://fakestoreapi.com/users';
+
   token!: Token;
+  logger = new Subject<boolean>();
 
   constructor(private http: HttpClient) {}
 
@@ -25,12 +27,17 @@ export class UsersService {
     });
   }
 
-  setToken(tokenValue: Token): void {
-    this.token = tokenValue;
-    localStorage.setItem('token', this.token.token);
+  isLoggedIn(): Observable<boolean> {
+    return this.logger;
   }
 
-  /* getAuthToken(): string {
-    return this.token?.token;
-  } */
+  logInWithToken(tokenValue: Token) {
+    localStorage.setItem('token', tokenValue.token);
+    this.logger.next(true);
+  }
+
+  logOut() {
+    localStorage.removeItem('token');
+    this.logger.next(false);
+  }
 }

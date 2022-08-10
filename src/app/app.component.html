@@ -1,2 +1,7 @@
-<app-users [users$]="users$" (onLoginUser)="login()"></app-users>
+<app-users
+  [users$]="users$"
+  [isLoggedIn$]="isLoggedIn$"
+  (onLoginUser)="login()"
+  (onLogoutUser)="logout()"
+></app-users>
 <app-categories></app-categories>
