@@ -20,16 +20,17 @@ export class UsersService {
 
   loginUser(): Observable<Token> {
     return this.http.post<Token>('https://fakestoreapi.com/auth/login', {
-      username: 'mor_2314',
-      password: '83r5^_',
+      username: 'hopkins',
+      password: 'William56$hj',
     });
   }
 
   setToken(tokenValue: Token): void {
     this.token = tokenValue;
+    localStorage.setItem('token', this.token.token);
   }
 
-  getAuthToken(): string {
+  /* getAuthToken(): string {
     return this.token?.token;
-  }
+  } */
 }
