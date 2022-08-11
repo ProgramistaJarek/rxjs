@@ -7,7 +7,10 @@ import { AppComponent } from './app.component';
 import { UsersComponent } from './components/users/users.component';
 import { CategoriesComponent } from './features/categories/categories.component';
 import { CategoryComponent } from './components/category/category.component';
+import { LoaderComponent } from './components/loader/loader.component';
+
 import { MyInterceptor } from './utilities/authInterceptor.service';
+import { LoaderInterceptor } from './utilities/loaderInterceptor.service';
 
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatListModule } from '@angular/material/list';
@@ -21,6 +24,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     UsersComponent,
     CategoriesComponent,
     CategoryComponent,
+    LoaderComponent,
   ],
   imports: [
     BrowserModule,
@@ -34,6 +38,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: MyInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: LoaderInterceptor, multi: true },
   ],
   bootstrap: [AppComponent],
 })

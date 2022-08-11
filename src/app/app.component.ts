@@ -13,7 +13,7 @@ import { Token } from './utilities/Token';
 export class AppComponent implements OnInit {
   title = 'rxjs';
   users$!: Observable<User[]>;
-  isLoggedIn$: Observable<boolean> = this.auth.isLoggedIn();
+  isLoggedIn$: Observable<boolean> = this.auth.logger;
 
   constructor(private auth: UsersService) {}
 
