@@ -23,8 +23,8 @@ import { User } from 'src/app/utilities/User';
       logout
     </button>
 
-    <h1>Users:</h1>
     <div *ngIf="users$ | async as users">
+      <h1>Users:</h1>
       <ul *ngFor="let user of users">
         <li>
           {{ user.name.firstname | titlecase }}

@@ -27,10 +27,6 @@ export class UsersService {
     });
   }
 
-  isLoggedIn(): Observable<boolean> {
-    return this.logger;
-  }
-
   logInWithToken(tokenValue: Token) {
     localStorage.setItem('token', tokenValue.token);
     this.logger.next(true);

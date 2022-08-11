@@ -1,8 +1,10 @@
 <app-loader></app-loader>
+
 <app-users
   [users$]="users$"
   [isLoggedIn$]="isLoggedIn$"
   (onLoginUser)="login()"
   (onLogoutUser)="logout()"
 ></app-users>
-<app-categories></app-categories>
+
+<app-categories [isLoggedIn$]="isLoggedIn$"></app-categories>

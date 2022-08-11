@@ -1,10 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { catchError, EMPTY, Observable, retry, switchMap } from 'rxjs';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { StoreService } from 'src/app/services/store.service';
-import { UsersService } from 'src/app/services/users.service';
 import { CategoryComponent } from 'src/app/components/category/category.component';
 
 @Component({
@@ -34,12 +33,11 @@ import { CategoryComponent } from 'src/app/components/category/category.componen
   styleUrls: ['./categories.component.scss'],
 })
 export class CategoriesComponent {
+  @Input() isLoggedIn$!: Observable<boolean>;
   categories$!: Observable<string[]>;
-  isLoggedIn$: Observable<boolean> = this.auth.isLoggedIn();
 
   constructor(
     private service: StoreService,
-    private auth: UsersService,
     private dialog: MatDialog,
     private snackBar: MatSnackBar
   ) {}
