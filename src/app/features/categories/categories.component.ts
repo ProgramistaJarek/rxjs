@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { catchError, EMPTY, Observable, retry, switchMap } from 'rxjs';
+import { catchError, EMPTY, Observable, retry, switchMap, tap } from 'rxjs';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { StoreService } from 'src/app/services/store.service';
@@ -18,13 +18,10 @@ import { CategoryComponent } from 'src/app/components/category/category.componen
       Show categories
     </button>
 
-    <mat-list
-      *ngIf="(isLoggedIn$ | async) && (categories$ | async) as categories"
-    >
+    <mat-list *ngIf="(isLoggedIn$ | async) && test as categories">
       <mat-list-item
         *ngFor="let category of categories"
         (click)="openCategory(category)"
-        class="mat-list-item"
       >
         {{ category }}
       </mat-list-item>
@@ -35,6 +32,7 @@ import { CategoryComponent } from 'src/app/components/category/category.componen
 export class CategoriesComponent {
   @Input() isLoggedIn$!: Observable<boolean>;
   categories$!: Observable<string[]>;
+  test!: string[];
 
   constructor(
     private service: StoreService,
@@ -43,11 +41,23 @@ export class CategoriesComponent {
   ) {}
 
   showCategories() {
-    this.categories$ = this.service.getAllCategories().pipe(
+    this.service
+      .getAllCategories()
+      .pipe(
+        tap((responese) => {
+          this.test = responese;
+        }),
+        catchError((err, caught) => {
+          return this.errorHandling(caught);
+        })
+      )
+      .subscribe();
+
+    /* this.categories$ = this.service.getAllCategories().pipe(
       catchError((err, caught) => {
         return this.errorHandling(caught);
       })
-    );
+    ); */
   }
 
   openCategory(category: string) {

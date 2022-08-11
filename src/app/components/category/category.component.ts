@@ -7,7 +7,7 @@ import { Product } from 'src/app/utilities/Product';
 @Component({
   selector: 'app-category',
   template: `
-    <div *ngIf="data.products$ | async as products" class="product">
+    <div *ngIf="data.products$ | async as products">
       <h1>Products</h1>
       <mat-dialog-content>
         <div *ngFor="let item of products" style="margin-bottom: 1.5rem">
