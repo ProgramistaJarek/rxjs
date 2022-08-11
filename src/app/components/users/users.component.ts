@@ -23,7 +23,7 @@ import { User } from 'src/app/utilities/User';
       logout
     </button>
 
-    <div *ngIf="users$ | async as users">
+    <div *ngIf="users$ | async as users; else loader">
       <h1>Users:</h1>
       <ul *ngFor="let user of users">
         <li>
@@ -32,6 +32,7 @@ import { User } from 'src/app/utilities/User';
         </li>
       </ul>
     </div>
+    <ng-template #loader><mat-spinner></mat-spinner></ng-template>
   `,
   styleUrls: ['./users.component.scss'],
 })

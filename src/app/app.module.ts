@@ -10,13 +10,14 @@ import { CategoryComponent } from './components/category/category.component';
 import { LoaderComponent } from './components/loader/loader.component';
 
 import { MyInterceptor } from './utilities/authInterceptor.service';
-import { LoaderInterceptor } from './utilities/loaderInterceptor.service';
 
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatListModule } from '@angular/material/list';
 import { MatButtonModule } from '@angular/material/button';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+
+import { SearchProductsModule } from './components/search-products/search-products.module';
 
 @NgModule({
   declarations: [
@@ -35,10 +36,10 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     MatDialogModule,
     MatListModule,
     MatSnackBarModule,
+    SearchProductsModule,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: MyInterceptor, multi: true },
-    { provide: HTTP_INTERCEPTORS, useClass: LoaderInterceptor, multi: true },
   ],
   bootstrap: [AppComponent],
 })

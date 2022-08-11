@@ -1,5 +1,3 @@
-<app-loader></app-loader>
-
 <app-users
   [users$]="users$"
   [isLoggedIn$]="isLoggedIn$"
@@ -7,4 +5,7 @@
   (onLogoutUser)="logout()"
 ></app-users>
 
-<app-categories [isLoggedIn$]="isLoggedIn$"></app-categories>
+<div *ngIf="isLoggedIn$ | async" style="display: flex; flex-direction: column">
+  <app-categories></app-categories>
+  <app-search-products></app-search-products>
+</div>

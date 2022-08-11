@@ -9,16 +9,11 @@ import { CategoryComponent } from 'src/app/components/category/category.componen
 @Component({
   selector: 'app-categories',
   template: `
-    <button
-      *ngIf="isLoggedIn$ | async"
-      mat-stroked-button
-      color="primary"
-      (click)="showCategories()"
-    >
+    <button mat-stroked-button color="primary" (click)="showCategories()">
       Show categories
     </button>
 
-    <mat-list *ngIf="(isLoggedIn$ | async) && test as categories">
+    <mat-list *ngIf="categories$ | async as categories">
       <mat-list-item
         *ngFor="let category of categories"
         (click)="openCategory(category)"
@@ -41,23 +36,11 @@ export class CategoriesComponent {
   ) {}
 
   showCategories() {
-    this.service
-      .getAllCategories()
-      .pipe(
-        tap((responese) => {
-          this.test = responese;
-        }),
-        catchError((err, caught) => {
-          return this.errorHandling(caught);
-        })
-      )
-      .subscribe();
-
-    /* this.categories$ = this.service.getAllCategories().pipe(
+    this.categories$ = this.service.getAllCategories().pipe(
       catchError((err, caught) => {
         return this.errorHandling(caught);
       })
-    ); */
+    );
   }
 
   openCategory(category: string) {

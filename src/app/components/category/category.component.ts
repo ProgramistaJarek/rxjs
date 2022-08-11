@@ -7,7 +7,7 @@ import { Product } from 'src/app/utilities/Product';
 @Component({
   selector: 'app-category',
   template: `
-    <div *ngIf="data.products$ | async as products">
+    <div *ngIf="data.products$ | async as products; else loader">
       <h1>Products</h1>
       <mat-dialog-content>
         <div *ngFor="let item of products" style="margin-bottom: 1.5rem">
@@ -22,6 +22,7 @@ import { Product } from 'src/app/utilities/Product';
         </div>
       </mat-dialog-content>
     </div>
+    <ng-template #loader><mat-spinner></mat-spinner></ng-template>
   `,
   styleUrls: ['./category.component.scss'],
 })
