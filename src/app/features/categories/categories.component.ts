@@ -21,13 +21,14 @@ import { CategoryComponent } from 'src/app/components/category/category.componen
         {{ category }}
       </mat-list-item>
     </mat-list>
+    <mat-spinner *ngIf="checkIfClick" diameter="25"></mat-spinner>
   `,
   styleUrls: ['./categories.component.scss'],
 })
 export class CategoriesComponent {
   @Input() isLoggedIn$!: Observable<boolean>;
   categories$!: Observable<string[]>;
-  test!: string[];
+  checkIfClick: boolean = false;
 
   constructor(
     private service: StoreService,
@@ -36,7 +37,9 @@ export class CategoriesComponent {
   ) {}
 
   showCategories() {
+    this.checkIfClick = true;
     this.categories$ = this.service.getAllCategories().pipe(
+      tap(() => (this.checkIfClick = false)),
       catchError((err, caught) => {
         return this.errorHandling(caught);
       })

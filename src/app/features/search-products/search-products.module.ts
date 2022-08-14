@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { SearchProductsComponent } from './search-products.component';
-import { ProductComponent } from '../product/product.component';
+import { ProductComponent } from '../../components/product/product.component';
 
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';

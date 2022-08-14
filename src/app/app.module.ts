@@ -7,7 +7,6 @@ import { AppComponent } from './app.component';
 import { UsersComponent } from './components/users/users.component';
 import { CategoriesComponent } from './features/categories/categories.component';
 import { CategoryComponent } from './components/category/category.component';
-import { LoaderComponent } from './components/loader/loader.component';
 
 import { MyInterceptor } from './utilities/authInterceptor.service';
 
@@ -17,7 +16,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 
-import { SearchProductsModule } from './components/search-products/search-products.module';
+import { SearchProductsModule } from './features/search-products/search-products.module';
 
 @NgModule({
   declarations: [
@@ -25,7 +24,6 @@ import { SearchProductsModule } from './components/search-products/search-produc
     UsersComponent,
     CategoriesComponent,
     CategoryComponent,
-    LoaderComponent,
   ],
   imports: [
     BrowserModule,

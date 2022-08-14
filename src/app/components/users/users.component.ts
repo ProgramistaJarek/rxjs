@@ -32,7 +32,7 @@ import { User } from 'src/app/utilities/User';
         </li>
       </ul>
     </div>
-    <ng-template #loader><mat-spinner></mat-spinner></ng-template>
+    <ng-template #loader><mat-spinner diameter="25"></mat-spinner></ng-template>
   `,
   styleUrls: ['./users.component.scss'],
 })
